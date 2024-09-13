@@ -28,11 +28,10 @@ export const getHourlyWeatherData = async (lat, lon) => {
         units: 'metric',
       },
     });
-    // Return response data or null if response is undefined
     return response?.data || null;
   } catch (error) {
     console.error('Error fetching hourly weather data:', error);
-    return null; // Return null on error
+    return null;
   }
 };
 
@@ -49,6 +48,6 @@ export const getAQIData = async (lat, lon) => {
     return response?.data || null;
   } catch (error) {
     console.error('Error fetching hourly weather data:', error);
-    return null; // Return null on error
+    return null;
   }
 }

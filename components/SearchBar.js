@@ -3,13 +3,17 @@ import { View, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-nativ
 
 
 const SearchBar = ({ value, onFocusSearch }) => {
-  const [address, setAddress] = useState(`Search a location`);
+  const [address, setAddress] = useState(`Search for a location`);
 
   useEffect(() => {
-    if (value) {
+    if (value?.county && value?.state) {
       setAddress(`${value.county}, ${value.state}`);
+    } else {
+      setAddress('Search for a location');
     }
   }, [value]);
+
+
   return (
     <TouchableOpacity
       style={styles.container}

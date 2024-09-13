@@ -1,5 +1,5 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, PermissionsAndroid } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import CurrentWeather from './CurrentWeather.js';
@@ -11,7 +11,6 @@ import { getHourlyWeatherData, getWeatherData, getAQIData } from '../apiService.
 import axios from 'axios';
 import { LOCATIONIQ_API_KEY } from '@env';
 
-// Utility function to debounce any function call
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -35,10 +34,12 @@ const Home = ({ navigation }) => {
   const [mLat, setMLat] = useState(0);
   const [mLong, setMLong] = useState(0);
   const [value, setValue] = useState(null);
+  const [permissionGranted, setPermissionGranted] = useState(false);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
-  // Use debounced latitude and longitude to prevent multiple API calls
-  const debouncedLat = useDebounce(mLat, 1000); // Adjust the delay as needed
-  const debouncedLong = useDebounce(mLong, 1000);
+  const debouncedLat = useDebounce(mLat, 3000);
+  const debouncedLong = useDebounce(mLong, 3000);
+  const debouncedPermissionGranted = useDebounce(permissionGranted, 3000);
 
   const reverseGeocoding = async () => {
     try {
@@ -53,7 +54,6 @@ const Home = ({ navigation }) => {
       setValue(response.data.address);
       console.log(response.data.address);
     } catch (error) {
-      Alert.alert('Error', 'An error occurred while fetching the data');
       console.error(error);
     }
   };
@@ -71,7 +71,10 @@ const Home = ({ navigation }) => {
       );
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        setPermissionGranted(true);
         getLocation();
+      } else {
+        setPermissionGranted(false);
       }
     } catch (err) {
       console.warn(err);
@@ -92,10 +95,6 @@ const Home = ({ navigation }) => {
   };
 
   useEffect(() => {
-    requestLocationPermission();
-  }, []);
-
-  useEffect(() => {
     const fetchWeather = async () => {
       if (!debouncedLat || !debouncedLong) return;
       const weather = await getWeatherData(debouncedLat, debouncedLong);
@@ -114,31 +113,47 @@ const Home = ({ navigation }) => {
       if (AQI) setAqi(AQI);
     };
 
-    // Fetch weather, hourly weather, AQI, and perform reverse geocoding only after the values are stable
-    fetchWeather();
-    fetchHourlyWeather();
-    fetchAQI();
-    reverseGeocoding();
+    const loadData = async () => {
+      await Promise.all([fetchWeather(), fetchHourlyWeather(), fetchAQI(), reverseGeocoding()]);
+      setIsDataLoaded(true);
+    }
+
+    loadData()
   }, [debouncedLat, debouncedLong]);
+
+  useEffect(() => {
+    if (isDataLoaded) {
+      navigation.goBack();
+    }
+  }, [isDataLoaded]);
 
   const locationChange = (lat, lon) => {
     setMLat(lat);
     setMLong(lon);
-    navigation.goBack();
   };
 
   return !weatherData || !hourlyWeatherData || !aqi ? (
     <View style={styles.container}>
       <SearchBar
         value={value}
-        onFocusSearch={() => navigation.navigate('LocationInput', { onLocationChange: locationChange })}
+        onFocusSearch={() =>
+          navigation.navigate('LocationInput', {
+            onLocationChange: locationChange,
+            requestPermission: requestLocationPermission,
+          })
+        }
       />
     </View>
   ) : (
     <View style={styles.container}>
       <SearchBar
         value={value}
-        onFocusSearch={() => navigation.navigate('LocationInput', { onLocationChange: locationChange })}
+        onFocusSearch={() =>
+          navigation.navigate('LocationInput', {
+            onLocationChange: locationChange,
+            requestPermission: requestLocationPermission,
+          })
+        }
       />
       <CurrentWeather data={weatherData} />
       <HourlyWeather data={hourlyWeatherData} />

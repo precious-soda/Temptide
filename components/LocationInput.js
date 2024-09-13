@@ -1,11 +1,12 @@
+// LocationInput.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, PermissionsAndroid, Platform, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, StyleSheet, Alert, Text, TouchableOpacity } from 'react-native';
 import axios from 'axios';
-import { LOCATIONIQ_API_KEY } from '@env'
+import { LOCATIONIQ_API_KEY } from '@env';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const LocationInput = ({ navigation, route }) => {
-  const { onLocationChange } = route.params;
-
+  const { onLocationChange, requestPermission } = route.params;
   const [query, setQuery] = useState('');
 
   const handleSearch = async () => {
@@ -25,32 +26,9 @@ const LocationInput = ({ navigation, route }) => {
         Alert.alert('No results found');
       }
     } catch (error) {
-      Alert.alert('Error', 'An error occurred while fetching the data');
       console.error(error);
     }
   };
-
-  // const requestLocationPermission = async () => {
-  //   try {
-  //     const granted = await PermissionsAndroid.request(
-  //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-  //       {
-  //         title: 'Location Permission Required',
-  //         message: 'This app needs access to your location to show weather data.',
-  //         buttonNegative: 'Cancel',
-  //         buttonPositive: 'OK',
-  //       }
-  //     );
-
-  //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-  //       Alert.alert('Permission granted', 'Location access has been enabled.');
-  //     } else {
-  //       Alert.alert('Permission denied', 'Location access is required to fetch data.');
-  //     }
-  //   } catch (err) {
-  //     console.warn(err);
-  //   }
-  // };
 
   return (
     <View style={styles.container}>
@@ -60,6 +38,7 @@ const LocationInput = ({ navigation, route }) => {
         placeholderTextColor="#e9ecef"
         value={query}
         onChangeText={setQuery}
+        selectionColor="#ffffff"
         onSubmitEditing={handleSearch}
         returnKeyType="done"
       />
@@ -67,8 +46,10 @@ const LocationInput = ({ navigation, route }) => {
       <View style={styles.container2}>
         <TouchableOpacity
           style={styles.buttonContainer}
+          onPress={() => requestPermission()}
         >
           <View style={styles.buttonView}>
+            <Text style={styles.icon}>⦿</Text>
             <Text style={styles.buttonText}>Use precise location</Text>
           </View>
         </TouchableOpacity>
@@ -92,22 +73,30 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ffffff',
   },
   container2: {
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   buttonContainer: {
-    marginTop: 15
+    marginTop: 15,
   },
   buttonView: {
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 30,
-    backgroundColor: '#48cae4',
-    alignSelf: 'flex-start'
+    backgroundColor: '#3f88c5',
+    alignSelf: 'flex-start',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  icon: {
+    fontSize: 13,
+    color: '#000000'
   },
   buttonText: {
-    fontSize: 11,
-    color: '#000000'
-  }
+    fontSize: 12,
+    color: '#000000',
+    marginLeft: 10
+  },
 });
 
 export default LocationInput;
