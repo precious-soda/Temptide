@@ -37,24 +37,32 @@ Follow these steps to set up the project on your local machine:
 ```bash
 git clone https://github.com/yourusername/temptide.git
 cd temptide
+```
 
 ### 2.Install Dependencies
 
+```bash
 npm install
+```
 
 ### 3. Set Up Environment Variables
 
 Create a .env file in the root directory of the project and add your API keys:
 
+```bash
 OPENWEATHER_API_KEY=your_openweathermap_api_key
 LOCATIONIQ_API_KEY=your_locationiq_api_key
+```
 
 ### 4.Running the Application
 
+```bash
 npx react-native run-android
+```
 
 ## Contributing
 
+```bash
 Contributions are welcome! Please fork this repository and submit a pull request with your changes.
 
 ```
