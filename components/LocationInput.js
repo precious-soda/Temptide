@@ -63,12 +63,16 @@ const LocationInput = ({ navigation, route }) => {
         onSubmitEditing={handleSearch}
         returnKeyType="done"
       />
-      <TouchableOpacity
-      >
-        <View style={styles.buttonContainer}>
-          <Text style={styles.button}>Use precise location</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.line} />
+      <View style={styles.container2}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+        >
+          <View style={styles.buttonView}>
+            <Text style={styles.buttonText}>Use precise location</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -76,27 +80,33 @@ const LocationInput = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15,
     backgroundColor: '#415a77',
   },
   input: {
     height: 50,
-    backgroundColor: '#1b263b',
-    borderRadius: 25,
-    marginBottom: 15,
     padding: 15,
     color: '#ffffff',
   },
+  line: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#ffffff',
+  },
+  container2: {
+    paddingHorizontal: 15
+  },
   buttonContainer: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 25,
+    marginTop: 15
+  },
+  buttonView: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 30,
     backgroundColor: '#48cae4',
     alignSelf: 'flex-start'
   },
-  button: {
-    fontSize: 12,
-    color: '#fffff'
+  buttonText: {
+    fontSize: 11,
+    color: '#000000'
   }
 });
 
