@@ -1,79 +1,60 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Temptide - Weather and Geolocation App
 
-# Getting Started
+**Temptide** is a React Native application designed to provide current weather, hourly forecasts, air quality index, and other weather-related data based on the user's geolocation or manual search. It leverages the OpenWeatherMap API for weather data and LocationIQ for reverse geocoding, offering a user-friendly interface to keep you updated with real-time weather conditions.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Features
 
-## Step 1: Start the Metro Server
+- **Current Weather:** Display the current temperature, weather conditions, wind speed, humidity, and more.
+- **Hourly Forecast:** Provides an hourly weather forecast to plan your day efficiently.
+- **Air Quality Index (AQI):** Displays real-time air quality information to help you stay healthy.
+- **Location Search:** Allows users to search for weather data by entering a location manually.
+- **Geolocation:** Fetches weather data based on the user's current location with precise accuracy.
+- **Permissions Handling:** Requests location permissions from the user and handles geolocation access gracefully.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Technologies Used
 
-To start Metro, run the following command from the _root_ of your React Native project:
+- **React Native:** A framework for building native apps using React.
+- **React Navigation:** Manages screen transitions and navigation within the app.
+- **Axios:** Handles API requests to OpenWeatherMap and LocationIQ.
+- **React Native Geolocation Service:** Provides access to the device's geolocation.
+- **OpenWeatherMap API:** Fetches weather data and air quality information.
+- **LocationIQ API:** Provides reverse geocoding services to convert coordinates into readable addresses.
+- **Environment Variables:** Manages sensitive data such as API keys securely using `.env` files.
+
+## Prerequisites
+
+- Node.js installed (v14.x or above recommended)
+- React Native CLI or Expo CLI
+- Android Studio or Xcode (for running on a physical device/emulator)
+- Git installed
+
+## Getting Started
+
+Follow these steps to set up the project on your local machine:
+
+### 1. Clone the Repository
 
 ```bash
-# using npm
-npm start
+git clone https://github.com/yourusername/temptide.git
+cd temptide
 
-# OR using Yarn
-yarn start
+### 2.Install Dependencies
+
+npm install
+
+### 3. Set Up Environment Variables
+
+Create a .env file in the root directory of the project and add your API keys:
+
+OPENWEATHER_API_KEY=your_openweathermap_api_key
+LOCATIONIQ_API_KEY=your_locationiq_api_key
+
+### 4.Running the Application
+
+npx react-native run-android
+
+## Contributing
+
+Contributions are welcome! Please fork this repository and submit a pull request with your changes.
+
 ```
-
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
